@@ -32,6 +32,8 @@
 <ol class="list-group">
     {% for name, content in app.session.get('todos') %}
         <li class="list-group-item">{{name}} : {{content}}</li>
+        {# <textarea name="value" id="" placeholder="{{name}}" cols="30" rows="10" value="content"></textarea>
+        <button type="submit">Supprimer</button></form> #}
         {% endfor %}
 </ol>
 </body>

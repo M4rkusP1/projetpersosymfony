@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBagInterface;
 
 class TodoController extends AbstractController
 {
@@ -31,7 +32,7 @@ class TodoController extends AbstractController
 
     }
 
-    #[Route('/todo/{value}/{content}', name: 'add_todo')]
+    #[Route('/todo/add/{value}/{content}', name: 'add_todo')]
     public function addToDo(Request $request, $value, $content) {
         $session = $request->getSession();
         if ($session->has(name: 'todos')) {
@@ -49,5 +50,52 @@ class TodoController extends AbstractController
             $this->addFlash(type: 'error', message: "Liste non initialisée !") ;
         }
         return $this->redirectToRoute(route: 'app_todo');
+    }
+
+    #[Route('/todo/update/{value}/{content}', name: 'mod_todo')]
+    public function modToDo(Request $request, $value, $content) {
+        $session = $request->getSession();
+        $todos = $session->get('todos');
+        if (isset($todos[$value])) {
+            $todos[$value] = $content;
+            $session = $session->set(name: 'todos', value: $todos);
+            $this->addFlash(type: 'success', message: "Le todo d'id $value vient d'être mis à jour!"); 
+        }
+        else {
+            $this->addFlash(type: 'error', message: "Le todo d'id $value n'existe pas pour pouvoir être updaté!"); 
+        }
+        return $this->render('todo/index.html.twig');
+    }
+
+
+    #[Route('/todo/delete/{value}/{content}', name: 'del_todo')]
+    public function delToDo(Request $request, $value, $content="") {
+        $session = $request->getSession();
+        $todos = $session->get('todos');
+        if (isset($todos[$value])) {
+            unset($todos[$value]);
+            $session = $session->set(name: 'todos', value: $todos);
+            $this->addFlash(type: 'success', message: "Le todo d'id $value vient d'être supprime ahahaahha!"); 
+        }
+        else {
+            $this->addFlash(type: 'error', message: "Le todo d'id $value n'existe pas pour pouvoir être supprimé!"); 
+        }
+        return $this->render('todo/index.html.twig');
+    }
+
+    #[Route('/todo/reset', name: 'res_todo')]
+    public function resToDo(Request $request) {
+        $session = $request->getSession();
+        if ($session->has('todos')) {
+        $todos = $session->get('todos');
+        $session= $session->remove('todos');
+        // $todos= array();
+            // $session = $session->set(name: 'todos', value: $todos);
+            $this->addFlash(type: 'success', message: "Liste supprimée"); 
+        }
+        else {
+            $this->addFlash(type: 'error', message: "Le todo n'existe pas pour pouvoir être supprimé!"); 
+        }
+        return $this->render('todo/index.html.twig');
     }
 }
