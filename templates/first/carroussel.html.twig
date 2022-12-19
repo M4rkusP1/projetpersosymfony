@@ -1,0 +1,45 @@
+{% block news %}
+<link rel="stylesheet" href="{{asset('/css/style.css')}}" >
+
+<div id="carouselExampleFade" class="carousel slide carousel-fade " data-bs-ride="carousel">
+  <div class="carousel-inner">
+    {% for new in news %}
+    <table>
+    <tr>
+    <td>
+        <div> {% if loop.index0 == 0 %} class = "carousel-item active" {% else %} class = "carousel-item" {% endif %}>
+      <img src="{{asset('assets/img/uploads/'~ new.image)}}" class="d-block w-100 " alt="...">
+    </div>
+    </td>
+     <div>
+     <p class="titre">
+        {{new.title}}
+    </p>
+    <p classe="contenu">
+        {{new.description}}
+    </p>
+    </div>
+    <td>
+    </td>
+    </tr>
+    </table>
+
+    <p class="titre">
+        {{new.title}}
+    </p>
+    <p classe="contenu">
+        {{new.description}}
+    </p>
+    </div>
+    {% endfor %}
+  </div>
+   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+{% endblock %}
