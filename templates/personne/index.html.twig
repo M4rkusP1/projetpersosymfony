@@ -1,0 +1,7 @@
+<table border="1px">
+<tr><td>Prénom</td><td>Nom</td></tr>
+{% for personne in personnes %} 
+<tr><td>{{personne.firstName}}</td><td>{{personne.name}}</td></tr>
+{% endfor %}
+
+</table>
