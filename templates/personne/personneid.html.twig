@@ -8,17 +8,16 @@
 
 </table> #}
 {%for flashMessage in app.session.flashbag.get('error') %}
-<div class="alert alert-danger">{{ flashMessage}}</div>
+{{ flashMessage}}
 {% endfor %}
 
 <div class="row">
-{% for personne in personnes %} 
 <div class="card" style="width: 18rem;">
   <div class="card-body">
-    <h5 class="card-title">{{personne.firstName}}</h5>
-    <h6 class="card-subtitle mb-2 text-muted">{{personne.name}}</h6>
-    <p class="card-text">{{personne.age}}</p>
-    <a href="{{path('app_personne_id', {id: personne.id})}}" class="card-link">Détails</a>
+    <h5 class="card-title">{{personnes.firstName}}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{personnes.name}}</h6>
+    <p class="card-text">{{personnes.age}}</p>
+    <a href="#" class="card-link"></a>
   </div>
 </div>
-{% endfor %}</div>
+</div>
