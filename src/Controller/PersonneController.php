@@ -19,7 +19,8 @@ class PersonneController extends AbstractController
                 // dd($repository);
                 $personnes = $repository->findAll();
                 return $this->render('personne/index.html.twig', [
-                    'personnes' => $personnes
+                    'personnes' => $personnes,
+                    'isPaginated' => FALSE
                 ]); 
                 }
 
@@ -64,8 +65,11 @@ class PersonneController extends AbstractController
             // page 1 = 1 à 10 (limite : 10 & offset: 1)
             // page 2 = 11 à 21 (limite: 10 & offset: 10)
             // page 3 = 22 à 32 (limite: 10 & offset: 21)
-            $offset = ($page - 1)*10;
+            $offset = ($page - 1)*$nbre;
             // dd($offset);
+            $nbrePersonnes = $repository->count([]);
+            $nbrePages = ceil($nbrePersonnes / $nbre);
+            // dd($nbrePages);
             $personnes = $repository->findBy([], ['age' => 'ASC'], limit: $nbre, offset: $offset);
             // dd($personnes);
             if (!$personnes) {
@@ -74,6 +78,10 @@ class PersonneController extends AbstractController
             }
             return $this->render('personne/index.html.twig', [
                 'personnes' => $personnes,
+                'isPaginated' => TRUE,
+                'nbrePages' => $nbrePages,
+                'page' => $page,
+                'nbre' => $nbre
             ]);
         }
     
