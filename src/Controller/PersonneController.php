@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use App\Entity\Personne;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -53,6 +54,7 @@ class PersonneController extends AbstractController
                 return $this->redirectToRoute('app_personne');
             }
             return $this->render('personne/personnesearch.html.twig', [
+
                 'personnes' => $personnes,
             ]);
         }
@@ -83,6 +85,44 @@ class PersonneController extends AbstractController
                 'page' => $page,
                 'nbre' => $nbre
             ]);
+        }
+
+        #[Route('/personne/delete/{id<\d+>}', name: 'app_personne_delete')]
+        public function deletePersonne(ManagerRegistry $doctrine, $id): RedirectResponse {
+            $entityManager = $doctrine->getManager();
+            $personne = $entityManager->getRepository(Personne::class)->find($id);
+            if ($personne) {
+                $entityManager->remove($personne);
+            $entityManager->flush();
+            $this->addFlash('success', 'La personne '.$personne->getName().' a été supprimé avec succès');
+            }
+            else {
+                $this->addFlash('error', 'La personne n\'existe pas et ne peut donc pas être supprimée');
+            }
+            // dd($personne->getName());
+            
+            return $this->redirectToRoute('app_personne_all');
+        }
+
+        #[Route('/personne/maj/{id<\d+>}', name: 'app_personne_maj')]
+        public function majPersonne(ManagerRegistry $doctrine, $id): RedirectResponse {
+            $entityManager = $doctrine->getManager();
+            $personne = $entityManager->getRepository(Personne::class)->find($id);
+            if ($personne) {
+                $nom = $personne->getName();
+                $personne->setName('DELON');
+                $personne->setFirstName('Alain');
+                $personne->setAge('84');
+                $entityManager->persist($personne);
+            $entityManager->flush();
+            $this->addFlash('success', 'La personne '.$nom.' a été maj avec succès');
+            }
+            else {
+                $this->addFlash('error', 'La personne n\'existe pas et ne peut donc pas être supprimée');
+            }
+            // dd($personne->getName());
+            
+            return $this->redirectToRoute('app_personne_all');
         }
     
 }

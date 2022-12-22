@@ -11,6 +11,10 @@
 <div class="alert alert-danger">{{ flashMessage}}</div>
 {% endfor %}
 
+{%for flashMessage in app.session.flashbag.get('success') %}
+<div class="alert alert-success">{{ flashMessage}}</div>
+{% endfor %}
+
 <div class="row">
 {% for personne in personnes %} 
 <div class="card" style="width: 18rem;">
@@ -18,7 +22,9 @@
     <h5 class="card-title">{{personne.firstName}}</h5>
     <h6 class="card-subtitle mb-2 text-muted">{{personne.name}}</h6>
     <p class="card-text">{{personne.age}}</p>
-    <a href="{{path('app_personne_id', {id: personne.id})}}" class="card-link">Détails</a>
+    <a href="{{path('app_personne_id', {id: personne.id})}}" class="btn btn-info btn-sm">Détails</a>
+    <a href="{{path('app_personne_delete', {id: personne.id})}}" class="btn btn-danger btn-sm">Supprimer</a>
+    <a href="{{path('app_personne_maj', {id: personne.id})}}" class="btn btn-warning btn-sm">MAJ</a>
   </div>
 </div>
 {% endfor %}</div>
@@ -26,11 +32,11 @@
 {% if isPaginated %}
 <nav aria-label="Page navigation example">
   <ul class="pagination">
-    {% if page != 1 %}<li class="page-item"><a class="page-link" href="{{path('app_personne_all', {page: (page-1)})}}">Previous</a></li>{% endif %}
+    {% if page != 1 %}<li class="page-item"><a class="page-link" href="{{path('app_personne_all', {page: (page-1), nbre: nbre})}}">Previous</a></li>{% endif %}
     {% for i in 1..nbrePages %}
-    <li class="page-item {% if i == page %} active {% endif %}"><a class="page-link" href="{{path('app_personne_all', {page: i})}}">{{ i }}</a></li>
+    <li class="page-item {% if i == page %} active {% endif %}"><a class="page-link" href="{{path('app_personne_all', {page: i, nbre: nbre})}}">{{ i }}</a></li>
     {% endfor %}
-     {% if page != nbrePages %}<li class="page-item"><a class="page-link" href="{{path('app_personne_all', {page: (page+1)})}}">Next</a></li>{% endif %}
+     {% if page != nbrePages %}<li class="page-item"><a class="page-link" href="{{path('app_personne_all', {page: (page+1), nbre: nbre})}}">Next</a></li>{% endif %}
   </ul>
 </nav>
 {% endif %}
