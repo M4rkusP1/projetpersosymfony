@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Doctrine\ORM\EntityRepository;
 use App\Entity\Personne;
+use App\Repository\PersonneRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -72,7 +73,7 @@ class PersonneController extends AbstractController
             $nbrePersonnes = $repository->count([]);
             $nbrePages = ceil($nbrePersonnes / $nbre);
             // dd($nbrePages);
-            $personnes = $repository->findBy([], ['age' => 'ASC'], limit: $nbre, offset: $offset);
+            $personnes = $repository->findBy([], ['id' => 'ASC'], limit: $nbre, offset: $offset);
             // dd($personnes);
             if (!$personnes) {
                 $this->addFlash('error', 'La personne avec cet âge n\'existe pas');
@@ -105,9 +106,9 @@ class PersonneController extends AbstractController
         }
 
         #[Route('/personne/maj/{id<\d+>}', name: 'app_personne_maj')]
-        public function majPersonne(ManagerRegistry $doctrine, $id): RedirectResponse {
+        public function majPersonne(ManagerRegistry $doctrine, $id, Personne $personne = null): RedirectResponse {
             $entityManager = $doctrine->getManager();
-            $personne = $entityManager->getRepository(Personne::class)->find($id);
+            // $personne = $entityManager->getRepository(Personne::class)->find($id);
             if ($personne) {
                 $nom = $personne->getName();
                 $personne->setName('DELON');
@@ -118,11 +119,29 @@ class PersonneController extends AbstractController
             $this->addFlash('success', 'La personne '.$nom.' a été maj avec succès');
             }
             else {
-                $this->addFlash('error', 'La personne n\'existe pas et ne peut donc pas être supprimée');
+                $this->addFlash('error', 'La personne n\'existe pas et ne peut donc pas être mise à jour');
             }
             // dd($personne->getName());
             
             return $this->redirectToRoute('app_personne_all');
+        }
+
+        #[Route('/personne/age/{ageMin<\d+>}/{ageMax<\d+>}', name: 'app_personne_age')]
+        public function agePersonne(ManagerRegistry $doctrine, Personne $personne = null, $ageMin, $ageMax): Response {
+            $repository = $doctrine->getRepository(Personne::class);
+            // $personne = $entityManager->getRepository(Personne::class)->find($id);
+           $personnes = $repository->findByAge($ageMin, $ageMax);
+            // dd($entityManager);
+            $this->addFlash('success', 'Voilà');        
+            // dd($personne->getName());
+            
+            return $this->render('personne/index.html.twig', [
+                'personnes' => $personnes,
+                'isPaginated' => FALSE,
+                // 'nbrePages' => 2,
+                // 'page' => 1,
+                // 'nbre' => 10
+            ]);
         }
     
 }
