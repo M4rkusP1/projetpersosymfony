@@ -150,6 +150,7 @@ class PersonneController extends AbstractController
             $repository = $doctrine->getRepository(Personne::class);
            $personne = new Personne();
            $form = $this->createForm(PersonneType::class, $personne);
+        //    $form->remove('age');
             return $this->render('personne/addform.html.twig', [
                 'formP' => $form->createView(),
             ]);

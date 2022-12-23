@@ -1,1 +1,13 @@
-{{form(formP)}}
+{% extends "base.html.twig" %}
+{# {% form_theme form 'bootstrap_5_layout.html.twig' %} #}
+
+{% block body %}
+
+{{ form_start(formP) }}
+<div class="row">
+<div class="col">{{ form_row(formP.Firstname) }}</div>
+<div class="col">{{ form_row(formP.Name) }}</div>
+</div>
+{{ form_rest(formP) }}
+
+{% endblock %}
