@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Doctrine\ORM\EntityRepository;
 use App\Entity\Personne;
+use App\Form\PersonneType;
 use App\Repository\PersonneRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -141,6 +142,16 @@ class PersonneController extends AbstractController
                 // 'nbrePages' => 2,
                 // 'page' => 1,
                 // 'nbre' => 10
+            ]);
+        }
+
+        #[Route('/personne/add', name: 'app_add')]
+        public function addPersonne(ManagerRegistry $doctrine, Personne $personne = null): Response {
+            $repository = $doctrine->getRepository(Personne::class);
+           $personne = new Personne();
+           $form = $this->createForm(PersonneType::class, $personne);
+            return $this->render('personne/addform.html.twig', [
+                'formP' => $form->createView(),
             ]);
         }
     
