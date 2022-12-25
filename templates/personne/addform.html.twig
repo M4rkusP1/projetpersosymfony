@@ -3,6 +3,14 @@
 
 {% block body %}
 
+{%for flashMessage in app.session.flashbag.get('error') %}
+<div class="alert alert-danger">{{ flashMessage}}</div>
+{% endfor %}
+
+{%for flashMessage in app.session.flashbag.get('success') %}
+<div class="alert alert-success">{{ flashMessage}}</div>
+{% endfor %}
+
 {{ form_start(formP) }}
 <div class="row">
 <div class="col">{{ form_row(formP.Firstname) }}</div>

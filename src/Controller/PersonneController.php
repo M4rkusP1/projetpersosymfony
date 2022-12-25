@@ -8,9 +8,11 @@ use App\Form\PersonneType;
 use App\Repository\PersonneRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+// use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 
 class PersonneController extends AbstractController
@@ -146,14 +148,25 @@ class PersonneController extends AbstractController
         }
 
         #[Route('/personne/add', name: 'app_add')]
-        public function addPersonne(ManagerRegistry $doctrine, Personne $personne = null): Response {
-            $repository = $doctrine->getRepository(Personne::class);
+        public function addPersonne(ManagerRegistry $doctrine, Personne $personne = null, Request $request): Response {
+            $repository = $doctrine->getManager();
            $personne = new Personne();
            $form = $this->createForm(PersonneType::class, $personne);
-        //    $form->remove('age');
-            return $this->render('personne/addform.html.twig', [
-                'formP' => $form->createView(),
-            ]);
+           $form->handleRequest($request);
+
+           if ($form->isSubmitted()) {
+            $repository->persist($personne);
+            $repository->flush();
+            $this->addFlash('success', 'La personne '.$personne->getName().' a été ajoutée avec succès');
+            return $this->redirectToRoute('app_personne_all');
+           }
+
+           else {
+                return $this->render('personne/addform.html.twig', [
+                                'formP' => $form->createView(),
+                            ]);
+           }
+            
         }
     
 }
