@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class PersonneType extends AbstractType
 {
@@ -15,7 +16,14 @@ class PersonneType extends AbstractType
         $builder
             ->add('Firstname')
             ->add('Name')
-            ->add('age')
+            ->add('age', ChoiceType::class, [
+                'choices'  => [
+                    'Ado' => 15,
+                    'Boomer' => 70,
+                    'Tortue Ninja' => 100,
+                ],
+            ])
+            // ->add('age')
             ->add('ajouter', SubmitType::class)
         ;
     }
