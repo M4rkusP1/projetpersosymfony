@@ -18,6 +18,7 @@
 <div class="row">
 {% for personne in personnes %} 
 <div class="card" style="width: 18rem;">
+  <img src="{{ asset('uploads/images/' ~ personne.image|default('default.jpg')) }}" class="card-img-top">
   <div class="card-body">
     <h5 class="card-title">{{personne.firstName}}</h5>
     <h6 class="card-subtitle mb-2 text-muted">{{personne.name}}</h6>
