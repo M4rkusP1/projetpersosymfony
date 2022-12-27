@@ -18,14 +18,14 @@ class PersonneType extends AbstractType
         $builder
             ->add('Firstname')
             ->add('Name')
-            ->add('age', ChoiceType::class, [
-                'choices'  => [
-                    'Ado' => 15,
-                    'Boomer' => 70,
-                    'Tortue Ninja' => 100,
-                ],
-            ])
-            // ->add('age')
+            ->add('age')
+            // , ChoiceType::class, [
+            //     'choices'  => [
+            //         'Ado' => 15,
+            //         'Boomer' => 70,
+            //         'Tortue Ninja' => 100,
+            //     ],
+            // ])
             ->add('image', FileType::class, [
                 'label' => 'Image (JPG or PNG file)',
 
