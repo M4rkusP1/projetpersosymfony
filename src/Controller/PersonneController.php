@@ -112,24 +112,44 @@ class PersonneController extends AbstractController
         }
 
         #[Route('/personne/maj/{id<\d+>}', name: 'app_personne_maj')]
-        public function majPersonne(ManagerRegistry $doctrine, $id, Personne $personne = null): RedirectResponse {
-            $entityManager = $doctrine->getManager();
-            // $personne = $entityManager->getRepository(Personne::class)->find($id);
-            if ($personne) {
-                $nom = $personne->getName();
-                $personne->setName('DELON');
-                $personne->setFirstName('Alain');
-                $personne->setAge('84');
-                $entityManager->persist($personne);
-            $entityManager->flush();
-            $this->addFlash('success', 'La personne '.$nom.' a été maj avec succès');
-            }
-            else {
-                $this->addFlash('error', 'La personne n\'existe pas et ne peut donc pas être mise à jour');
-            }
-            // dd($personne->getName());
+        public function majPersonne(ManagerRegistry $doctrine, $id, Personne $personne = null, Request $request, SluggerInterface $slugger): Response {
+        $repository = $doctrine->getManager();
+           $form = $this->createForm(PersonneType::class, $personne);
+           $form->handleRequest($request);
+           if ($form->isSubmitted() && $form->isValid()) {
             
+            $brochureFile = $form->get('image')->getData();
+            if ($brochureFile) {
+                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $brochureFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $personne->setImage($newFilename);
+
+            }
+            $repository->persist($personne);
+            $repository->flush();
+            $this->addFlash('success', 'La personne '.$personne->getName().' a été mise à jour avec succès');
             return $this->redirectToRoute('app_personne_all');
+           } 
+           else {
+            $this->addFlash('error', 'Faites attention aux données que vous rentrez lorsque vous corrigez un profil');            
+            return $this->render('personne/addform.html.twig', [
+                'formP' => $form->createView(),
+            ]);}
         }
 
         #[Route('/personne/age/{ageMin<\d+>}/{ageMax<\d+>}', name: 'app_personne_age')]
