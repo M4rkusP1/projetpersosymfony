@@ -51,6 +51,8 @@ class PersonneType extends AbstractType
                     ])
                 ],
             ])
+            ->add('job')
+            ->add('hobbies')
             ->add('ajouter', SubmitType::class)
         ;
     }
