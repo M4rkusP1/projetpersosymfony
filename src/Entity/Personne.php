@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PersonneRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Mime\Message;
@@ -57,6 +59,20 @@ class Personne
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
+    #[ORM\OneToOne(inversedBy: 'personne', cascade: ['persist', 'remove'])]
+    private ?Profile $profile = null;
+
+    #[ORM\ManyToMany(targetEntity: Hobby::class)]
+    private Collection $hobbies;
+
+    #[ORM\ManyToOne(inversedBy: 'personnes')]
+    private ?Profession $job = null;
+
+    public function __construct()
+    {
+        $this->hobbies = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,6 +122,54 @@ class Personne
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getProfile(): ?Profile
+    {
+        return $this->profile;
+    }
+
+    public function setProfile(?Profile $profile): self
+    {
+        $this->profile = $profile;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, hobby>
+     */
+    public function getHobbies(): Collection
+    {
+        return $this->hobbies;
+    }
+
+    public function addHobby(hobby $hobby): self
+    {
+        if (!$this->hobbies->contains($hobby)) {
+            $this->hobbies->add($hobby);
+        }
+
+        return $this;
+    }
+
+    public function removeHobby(Hobby $hobby): self
+    {
+        $this->hobbies->removeElement($hobby);
+
+        return $this;
+    }
+
+    public function getJob(): ?Profession
+    {
+        return $this->job;
+    }
+
+    public function setJob(?Profession $job): self
+    {
+        $this->job = $job;
 
         return $this;
     }
