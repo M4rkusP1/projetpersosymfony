@@ -13,11 +13,13 @@
     <meta name="robots" content="noindex,nofollow">
     <title>{% block title %}Admin Panel{% endblock %}</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('assets/images/favicon.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('assets/images/favicon2.png')}}">
     <!-- Custom CSS -->
     <link href="{{asset('assets/libs/flot/css/float-chart.css')}}" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="{{asset('assets/dist/css/style.min.css')}}" rel="stylesheet">
+    <style>
+    </style>
 </head>
 
 <body>
@@ -50,16 +52,16 @@
                         <b class="logo-icon ps-2">
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
-                            <img src="{{asset('assets/images/logo-icon.png')}}" alt="homepage" class="light-logo" />
+                            <img src="{{asset('assets/images/icontr.png')}}" height="90px" width="90px" alt="homepage" class="light-logo" />
 
                         </b>
                         <!--End Logo icon -->
                         <!-- Logo text -->
-                        <span class="logo-text">
+                        {# <span class="logo-text">
                             <!-- dark Logo text -->
                             <img src="{{asset('assets/images/logotext.png')}}" height="70px" width="152px" alt="homepage" class="light-logo" />
 
-                        </span>
+                        </span> #}
                         <!-- Logo icon -->
                         <!-- <b class="logo-icon"> -->
                         <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
@@ -245,7 +247,7 @@
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav" class="pt-4">
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                href="index.html" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span
+                                href="{{path('app_personne_all')}}" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span
                                     class="hide-menu">Dashboard</span></a></li>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="charts.html" aria-expanded="false"><i class="mdi mdi-chart-bar"></i><span
@@ -377,7 +379,9 @@
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
+            <div style="background-image: url({{asset('assets/images/background2.png')}})">
             {% block body %}{% endblock %}
+            </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->
