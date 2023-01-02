@@ -18,24 +18,9 @@
 <div class="alert alert-success">{{ flashMessage}}</div>
 {% endfor %}
 
-<div class="row">
-{% for personne in personnes %} 
-<div class="card" style="width: 18rem; margin: 20px">
-  <img src="{{ asset('uploads/images/' ~ personne.image|default('default.jpg')) }}" class="card-img-top">
-  <div class="card-body">
-    <h5 class="card-title">{{personne.firstName}}</h5>
-    <h6 class="card-subtitle mb-2 text-muted">{{personne.name}}</h6>
-    <p class="card-text">{{personne.age}}</p>
-    <a href="{{path('app_personne_id', {id: personne.id})}}" class="btn btn-info btn-sm">Détails</a>
-    <a href="{{path('app_personne_delete', {id: personne.id})}}" class="btn btn-danger btn-sm">Supprimer</a>
-    <a href="{{path('app_personne_maj', {id: personne.id})}}" class="btn btn-warning btn-sm">MAJ</a>
-  </div>
-</div>
-{% endfor %}</div>
-
 {% if isPaginated %}
 <nav aria-label="Page navigation example">
-  <ul class="pagination">
+  <ul class="pagination pagination-lg justify-content-center">
     {% if page != 1 %}<li class="page-item"><a class="page-link" href="{{path('app_personne_all', {page: (page-1), nbre: nbre})}}">Previous</a></li>{% endif %}
     {% for i in 1..nbrePages %}
     <li class="page-item {% if i == page %} active {% endif %}"><a class="page-link" href="{{path('app_personne_all', {page: i, nbre: nbre})}}">{{ i }}</a></li>
@@ -44,4 +29,21 @@
   </ul>
 </nav>
 {% endif %}
+
+<div class="row">
+{% for personne in personnes %} 
+<div class="card" style="width: 18rem; margin: 20px; border-radius: 15px; opacity: .9">
+  <img src="{{ asset('uploads/images/' ~ personne.image|default('default.jpg')) }}" class="card-img-top" style="border-radius: 5%; width: 100%; height: 11vw;object-fit: cover;">
+  <div class="card-body">
+    <h5 class="card-title h2">{{personne.firstName}}</h5>
+    <h6 class="card-subtitle mb-2 text-muted h2">{{personne.name}}</h6>
+    <p class="card-text">{{personne.age}}</p>
+    <a href="{{path('app_personne_id', {id: personne.id})}}" class="btn btn-info btn">Détails</a>
+    <a href="{{path('app_personne_delete', {id: personne.id})}}" class="btn btn-danger btn">Supprimer</a>
+    <a href="{{path('app_personne_maj', {id: personne.id})}}" class="btn btn-warning btn">MAJ</a>
+  </div>
+</div>
+{% endfor %}</div>
+
+
 {% endblock %}
