@@ -38,9 +38,11 @@
     <h5 class="card-title h2">{{personne.firstName}}</h5>
     <h6 class="card-subtitle mb-2 text-muted h2">{{personne.name}}</h6>
     <p class="card-text">{{personne.age}}</p>
+    {% if app.user %}
     <a href="{{path('app_personne_id', {id: personne.id})}}" class="btn btn-info btn">Détails</a>
     <a href="{{path('app_personne_delete', {id: personne.id})}}" class="btn btn-danger btn">Supprimer</a>
     <a href="{{path('app_personne_maj', {id: personne.id})}}" class="btn btn-warning btn">MAJ</a>
+    {% endif %}
   </div>
 </div>
 {% endfor %}</div>
