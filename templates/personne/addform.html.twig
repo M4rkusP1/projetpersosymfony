@@ -1,5 +1,5 @@
 {% extends "dashboard.html.twig" %}
-{% block desk %}Ajout/modification d'un utilisateur{% endblock %}
+{% block desk %}{% if app.request.attributes.get('_route') == 'app_add' %}Ajout{% else %}Modification{% endif %} d'un utilisateur{% endblock %}
 {# {% form_theme form 'bootstrap_5_layout.html.twig' %} #}
 
 {% block body %}
@@ -19,6 +19,8 @@
 <div class="col h3" style="opacity: .9">{{ form_row(formP.image) }}</div>
 </div>
 <div class="row w-50 h3 p-4" style="opacity: .9">{{ form_rest(formP) }}</div>
+<div>
+
 
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 

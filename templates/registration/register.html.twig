@@ -1,0 +1,22 @@
+{% extends 'dashboard.html.twig' %}
+
+{% block title %}Enregistrement{% endblock %}
+{% block desk %}Enregistrez-vous !{% endblock %}
+
+{% block body %}
+    
+<div class="row w-50 p-4 h3">
+<br><br>
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Password'
+        }) }}
+        {{ form_row(registrationForm.agreeTerms) }}
+<br>
+        <button class="btn btn-lg btn-primary p-4" type="submit">
+        S'enregisrer
+    </button>
+    {{ form_end(registrationForm) }}
+    </div>
+{% endblock %}

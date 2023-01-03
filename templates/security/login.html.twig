@@ -1,7 +1,7 @@
 {% extends 'dashboard.html.twig' %}
 
 {% block title %}Connection{% endblock %}
-{% block desk %}Connection{% endblock %}
+{% block desk %}Connectez-vous !{% endblock %}
 
 {% block body %}
 <form method="post">
@@ -14,13 +14,14 @@
             Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}" class="text-white bg-warning">Se déconnecter</a>
         </div>
     {% endif %}
-
-    <h1 class="h1 mb-3 font-weight-normal">Connectez vous !</h1>
+<br><br>
+    {# <h1 class="h1 mb-3 font-weight-normal">Connectez vous !</h1> #}
+    <div class="row p-4 w-50">
     <label for="inputEmail" class="h3">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control row w-25 p-4" autocomplete="email" required autofocus>
-    <br>
-    <label for="inputPassword" class="h3">Mot de passe</label>
-    <input type="password" name="password" id="inputPassword" class="form-control row w-25 p-4" autocomplete="current-password" required>
+    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+    <br><br><br><br>
+    <label for="inputPassword" class="h3 mt-4">Mot de passe</label>
+    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
@@ -30,15 +31,17 @@
         {# Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
         See https://symfony.com/doc/current/security/remember_me.html #}
 
-        <div class="checkbox mb-3">
+        <div class="checkbox mb-3 p-4">
             <label>
                 <input type="checkbox" name="_remember_me"> Souvenez-vous de moi
             </label>
         </div>
    
-
-    <button class="btn btn-lg btn-primary" type="submit">
+ 
+    <button class="btn btn-lg btn-primary p-4" type="submit">
         Se connecter
     </button>
+   </div>
 </form>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 {% endblock %}

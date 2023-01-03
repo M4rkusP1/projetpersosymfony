@@ -94,10 +94,11 @@
                         <!-- ============================================================== -->
                         <!-- create new -->
                         <!-- ============================================================== -->
-                        {% if app.user %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                        {% if app.request.attributes.get('_route') != 'app_add' %}
                         <li class="nav-item">
-                            <a class="nav-link waves-effect" role="button"  aria-expanded="false" href="{{path('app_add')}}">
-                                <span class="d-none d-md-block" >Ajouter un utilisateur</span>
+                            <a class="nav-link waves-effect bg-success " role="button"  aria-expanded="false" href="{{path('app_add')}}">
+                                <span class=" h4 mx-auto" >Ajouter un utilisateur</span>
                             </a>
                             {# <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="#">Action</a></li>
@@ -106,6 +107,7 @@
                                 <li><a class="dropdown-item" href="#">Something else here</a></li>
                             </ul> #}
                         </li>
+                        {% endif %}
                         {% endif %}
                         <!-- ============================================================== -->
                         <!-- Search -->
@@ -254,7 +256,8 @@
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="{{path('app_personne_all')}}" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span
                                     class="hide-menu">Dashboard</span></a></li>
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                    <br><br><br><br><br>
+                        {# <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="charts.html" aria-expanded="false"><i class="mdi mdi-chart-bar"></i><span
                                     class="hide-menu">Charts</span></a></li>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
@@ -292,10 +295,10 @@
                                             class="mdi mdi-emoticon-cool"></i><span class="hide-menu"> Font Awesome
                                             Icons </span></a></li>
                             </ul>
-                        </li>
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                        </li> #}
+                        {# <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="pages-elements.html" aria-expanded="false"><i class="mdi mdi-pencil"></i><span
-                                    class="hide-menu">Elements</span></a></li>
+                                    class="hide-menu">Elements</span></a></li> #}
                         {# <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark"
                                 href="javascript:void(0)" aria-expanded="false"><i
                                     class="mdi mdi-move-resize-variant"></i><span class="hide-menu">Addons </span></a>
@@ -319,6 +322,10 @@
                         </li> #}
                         {% if not app.user %}
                         <li class="sidebar-item"> 
+                        <a class="sidebar-link waves-effect waves-dark" href="{{path('app_register')}}" role="button" aria-expanded="false"><i class="mdi mdi-face"></i><span
+                                    class="hide-menu" href="{{path('app_login')}}">S'enregistrer</span></a>
+                        
+                        <li class="sidebar-item"> 
                         <a class="sidebar-link waves-effect waves-dark" href="{{path('app_login')}}" role="button" aria-expanded="false"><i class="mdi mdi-account-key"></i><span
                                     class="hide-menu" href="{{path('app_login')}}">Se connecter</span></a>
 
@@ -333,7 +340,7 @@
                             </ul> #}
                         </li>
                         {% endif %}
-                        <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark"
+                        {# <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark"
                                 href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-alert"></i><span
                                     class="hide-menu">Errors </span></a>
                             <ul aria-expanded="false" class="collapse  first-level">
@@ -350,7 +357,7 @@
                                             class="mdi mdi-alert-octagon"></i><span class="hide-menu"> Error 500
                                         </span></a></li>
                             </ul>
-                        </li>
+                        </li> #}
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
